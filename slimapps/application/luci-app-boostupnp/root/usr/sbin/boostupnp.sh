@@ -7,16 +7,7 @@ upnplog(){
 }
 
 # get public ip address
-ip_regex="[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}"
-
-URL=("pv.sohu.com/cityjson" "ip.cn/api/index?ip=&type=0" "ip.cip.cc" "myip.ipip.net" "members.3322.org/dyndns/getip" "ip.360.cn/IPShare/info" "http://myip.ipip.net/s" "http://ip.3322.net")
-_url=${URL[$(rand 1 ${#URL[@]})]}
-
-if [ "$_url" = "ip.360.cn/IPShare/info" ]; then
-    ip=curl -s --referer "http://ip.360.cn/" "$_url" | egrep -o $ip_regex
-else
-    ip=curl -s "$_url" | egrep -o $ip_regex
-fi
+ip=$(curl -k -s -4 members.3322.org/dyndns/getip)
 upnplog "My public IP address is: $ip"
 
 # check public ip
