@@ -8,7 +8,7 @@ upnplog(){
 
 # get public ip address
 ip=$(curl -k -s -4 members.3322.org/dyndns/getip)
-upnplog "My public IP address is: $ip"
+#upnplog "My public IP address is: $ip"
 
 # check public ip
 if [ -z "$ip" ];then
@@ -18,7 +18,8 @@ fi
 
 
 if expr "$ip" : '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' >/dev/null; then
-  upnplog "Validate public IP"
+:
+#  upnplog "Validate public IP"
 else
   upnplog "Wrong IP address"
   exit
@@ -26,11 +27,11 @@ fi
 
 # get upnp configed external ip
 upnp_ext_ip=$(uci get upnpd.config.external_ip)
-upnplog "My upnp external IP address is: $upnp_ext_ip"
+#upnplog "My upnp external IP address is: $upnp_ext_ip"
 
 
 if [ "$ip" = "$upnp_ext_ip" ];then
-    upnplog "Upnp external IP up to date. Exit."
+#    upnplog "Upnp external IP up to date. Exit."
     exit
 fi
 
@@ -40,5 +41,6 @@ uci commit upnpd
 
 # restart upnpd
 /etc/init.d/miniupnpd restart &
-
+upnplog "My public IP address is: $ip"
+upnplog "My upnp external IP address is: $upnp_ext_ip"
 upnplog "Configed new external for upnp: $ip"
