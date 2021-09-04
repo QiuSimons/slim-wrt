@@ -7,7 +7,7 @@ upnplog(){
 }
 
 # get public ip address
-ip=$(curl -k -s -4 members.3322.org/dyndns/getip)
+ip=$(curl -sL --connect-timeout 3 whatismyip.akamai.com)
 #upnplog "My public IP address is: $ip"
 
 # check public ip
